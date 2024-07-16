@@ -1,4 +1,5 @@
 import 'package:carrot_flutter/src/home.dart';
+import 'package:carrot_flutter/src/screens/controllers/authController.dart';
 import 'package:carrot_flutter/src/screens/widgets/forms/labelTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,9 +14,31 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // final authController = Get.put(AuthController());
+  final authController = Get.put(AuthController());
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  // login(String phone, String password) async {
+  // Map body = await authProvider.login(phone, password);
+  //   if (body['result'] == 'ok') {
+  //   return true;
+  //   }
+  //   Get.snackbar('로그인 에러', body['message'],
+  //   snackPosition: SnackPosition.BOTTOM);
+  //   return false;
+  // }
+  @override
+  void initState() {
+  super.initState();
+  _phoneController.addListener(() {
+  authController.updateButtonState(_phoneController);
+  });
+  }
+  @override
+  void dispose() {
+  _phoneController.removeListener(() {
+  authController.updateButtonState(_phoneController);
+  });
+  }
   _submit() async {
   // bool result = await authController.login(
   // _phoneController.text,
