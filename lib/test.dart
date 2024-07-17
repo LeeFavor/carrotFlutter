@@ -1,5 +1,6 @@
 import 'package:carrot_flutter/my_database.dart';
 import 'package:carrot_flutter/mysql_db.dart';
+import 'package:carrot_flutter/sqlite_db.dart';
 import 'package:flutter/material.dart';
 //import 'package:database_practice/my_database.dart';
 //import 'package:database_practice/mysql_db.dart';
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen>{
   @override
   void initState(){
     super.initState();
-    MysqlDb.initializeDB().then((value) => {
+    SqliteDb.initializeDB().then((value) => {
       _database = value,
       _name = _database.getName(),
       _bConnection = true,
@@ -49,6 +50,12 @@ class _HomeScreenState extends State<HomeScreen>{
       ),
       body: Column(children: [
         _viewTextField(),
+        Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Radio(value: 0, groupValue: dbKind, onChanged: _changeDB,), const Text('SqLite'),
+            Radio(value: 1, groupValue: dbKind, onChanged: _changeDB,), const Text('MySQL'),
+          ],
+        ),
         _viewCommandButton(),
         _dataListView()
       ],),
@@ -108,5 +115,30 @@ class _HomeScreenState extends State<HomeScreen>{
       Text('이름: '), SizedBox(width: 200, height: 35, child: TextField(controller: nameValue, textAlign:  TextAlign.center)),
       Text('나이: '), SizedBox(width: 100, height: 35, child: TextField(controller: ageValue, textAlign:  TextAlign.center, keyboardType: TextInputType.number)),
     ],);
+  }
+  int? dbKind = 0;
+  _changeDB(int? value) async{
+    await _database.close();
+    setState(() {
+      dbKind = value;
+      users = [];
+      if(value == 0){
+        SqliteDb.initializeDB().then((value) => {
+          _database = value,
+          _name = _database.getName(),
+          _bConnection = true,
+          print('connection success!'),
+          setState(() {})
+        });
+      } else if(value == 1){
+        MysqlDb.initializeDB().then((value) => {
+          _database = value,
+          _name = _database.getName(),
+          _bConnection = true,
+          print('connection success!'),
+          setState(() {})
+        });
+      }
+    });
   }
 }
