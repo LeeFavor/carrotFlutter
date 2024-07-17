@@ -14,7 +14,7 @@ class AuthProvider extends Provider {
   }
 
   Future<Map> login(String phone, String password) async {
-    final response = await post('/api/login', {
+  final response = await post('/api/login', {
       'phone': phone,
       'password': password,
     });

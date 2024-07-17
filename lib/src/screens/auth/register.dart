@@ -72,8 +72,8 @@ class _RegisterState extends State<Register> {
             ),
             Obx(
               () => Visibility(
-            // visible: authController.showVerifyForm.value,
-            visible: true,
+            visible: authController.showVerifyForm.value,
+            // visible: true,
             child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

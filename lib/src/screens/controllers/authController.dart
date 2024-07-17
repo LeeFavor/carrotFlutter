@@ -45,7 +45,7 @@ class AuthController extends GetxController {
     return false;
   }
   Future<bool> register(String password, String name, [int? profile]) async {
-    Map body = await authProvider.register(phoneNumber!, password, name, [profile]);
+    Map body = await authProvider.register(phoneNumber!, password, name, profile);
     if (body['result'] == 'ok') {
     return true;
     }
