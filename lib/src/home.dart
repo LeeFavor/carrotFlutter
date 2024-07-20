@@ -1,4 +1,4 @@
-import 'package:carrot_flutter/src/screens/auth/feedIndex.dart';
+import 'package:carrot_flutter/src/screens/feed/index.dart';
 import 'package:flutter/material.dart';
 
 final List<BottomNavigationBarItem> myTabs = [

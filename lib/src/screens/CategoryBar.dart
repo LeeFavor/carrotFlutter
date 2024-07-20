@@ -25,14 +25,14 @@ class CategoryButton extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
           child: Icon(
-          Icons.person_search,
+          icon,
           size: 16,
           color: Colors.grey[600],
         ),
       ),
       const SizedBox(width: 8),
       Text(
-        '알바',
+        title ?? '메뉴',
         style: TextStyle(fontSize: 14, color: 
         Colors.grey[600]),
       ),
