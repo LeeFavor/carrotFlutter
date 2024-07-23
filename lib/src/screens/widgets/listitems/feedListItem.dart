@@ -1,5 +1,8 @@
 import 'package:carrot_flutter/src/models/feedModel.dart';
-import 'package:carrot_flutter/src/screens/widgets/listitems/feedEdit.dart';
+import 'package:carrot_flutter/src/screens/controllers/feedController.dart';
+import 'package:carrot_flutter/src/screens/feed/show.dart';
+import 'package:carrot_flutter/src/screens/widgets/modal/confirmModal.dart';
+import 'package:carrot_flutter/src/screens/widgets/modal/more_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,11 +12,12 @@ class FeedListItem extends StatelessWidget {
   final FeedModel item;
   const FeedListItem(this.item, {super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => FeedEdit(item: item));
+        Get.to(() => FeedShow(item.id));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,13 +66,49 @@ class FeedListItem extends StatelessWidget {
           ),
           // 기타 영역
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return MoreBottomModal(
+                    cancelTap: () {
+                      Get.back();
+                    },
+                    hideTap: () {},
+                    delete: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ConfirmModal(
+                            title: '삭제 하기',
+                            message: '이 글을 삭제하시겠습니까?',
+                            confirmText: '삭제하기',
+                            confirmAction: () async {
+                              // bool result =
+                              //     await feedController.feedDelete(item.id);
+                              // if (result) {
+                              //   Get.back();
+                              //   Get.back();
+                              // }
+                            },
+                            cancel: () {
+                              Get.back();
+                            },
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            },
             icon: const Icon(
               Icons.more_vert,
               color: Colors.grey,
               size: 16,
             ),
           ),
+
           Positioned(
             right: 10,
             bottom: 0,

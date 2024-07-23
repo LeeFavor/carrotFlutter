@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carrot_flutter/src/models/userModel.dart';
 
 class UserListItem extends StatelessWidget {
-  final userModel user;
+  final UserModel user;
   const UserListItem(this.user, {super.key});
 
   @override

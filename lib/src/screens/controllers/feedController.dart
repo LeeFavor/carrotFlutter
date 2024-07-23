@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 class FeedController extends GetxController {
   final feedProvider = Get.put(FeedProvider());
-  RxList<FeedModel> feedList = <FeedModel>[].obs;
-
+  final RxList<FeedModel> feedList = <FeedModel>[].obs;
+  final Rx<FeedModel?> currentFeed = Rx<FeedModel?>(null);
   // @override
   // void onInit() {
   //   super.onInit();
@@ -28,6 +28,27 @@ class FeedController extends GetxController {
       return true;
     }
     Get.snackbar('생성 에러', body['message'], snackPosition: SnackPosition.BOTTOM);
+    return false;
+  }
+
+  Future<void> feedShow(int id) async {
+    Map body = await feedProvider.show(id);
+    if (body['result'] == 'ok') {
+      currentFeed.value = FeedModel.parse(body['data']);
+    } else {
+      Get.snackbar('피드 에러', body['message'],
+          snackPosition: SnackPosition.BOTTOM);
+      currentFeed.value = null;
+    }
+  }
+
+  Future<bool> feedDelete(int id) async {
+    Map body = await feedProvider.destroy(id);
+    if (body['result'] == 'ok') {
+      feedList.removeWhere((feed) => feed.id == id);
+      return true;
+    }
+    Get.snackbar('삭제 에러', body['message'], snackPosition: SnackPosition.BOTTOM);
     return false;
   }
 }

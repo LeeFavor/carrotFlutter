@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class MoreBottomModal extends StatelessWidget {
   final VoidCallback cancelTap;
   final VoidCallback hideTap;
-  
-  const MoreBottomModal({required this.cancelTap, required this.hideTap, Key? key}) : super(key: key);
+  final VoidCallback? delete;
+
+  const MoreBottomModal({
+    required this.cancelTap,
+    required this.hideTap,
+    this.delete, // 추가
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,8 @@ class MoreBottomModal extends StatelessWidget {
                               onPressed: () {
                                 hideTap();
                                 Navigator.pop(context);
-                                Navigator.pop(context); // 이 부분은 두 번 pop 해야 하는지 확인 필요
+                                Navigator.pop(
+                                    context); // 이 부분은 두 번 pop 해야 하는지 확인 필요
                               },
                               child: const Text('숨기기'),
                             ),
@@ -54,13 +61,24 @@ class MoreBottomModal extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.help_outline),
-                  title: Text('게시글 노출 기준'),
-                ),
+                    leading: Icon(Icons.help_outline),
+                    title: Text('게시글 노출 기준')),
                 ListTile(
-                  leading: Icon(Icons.warning_amber_outlined),
+                  leading: Icon(
+                    Icons.warning_amber_outlined,
+                    color: Colors.red,
+                  ),
                   title: Text('신고하기'),
                   textColor: Colors.red,
+                ),
+                Visibility(
+                  // 추가
+                  visible: delete != null,
+                  child: ListTile(
+                    leading: const Icon(Icons.delete_outline),
+                    title: const Text('삭제하기'),
+                    onTap: delete,
+                  ),
                 ),
               ],
             ),
