@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:carrot_flutter/src/screens/widgets/app.dart';
+import 'package:carrot_flutter/src/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,7 +15,9 @@ import 'package:carrot_flutter/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    String token = Global.accessToken;
+    bool isLogin = token.isNotEmpty;
+    await tester.pumpWidget(const MyApp(false));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

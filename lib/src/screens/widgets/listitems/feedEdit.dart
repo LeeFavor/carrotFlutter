@@ -2,8 +2,10 @@ import 'package:carrot_flutter/src/screens/controllers/feedController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../models/feedModel.dart';
+
 class FeedEdit extends StatefulWidget {
-  final Map item;
+  final FeedModel item;
   const FeedEdit({required this.item, super.key});
 
   @override
@@ -18,20 +20,12 @@ class _FeedEditState extends State<FeedEdit> {
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController(text: widget.item['title']);
-    priceController = TextEditingController(text: "${widget.item['price']}");
+    titleController = TextEditingController(text: widget.item.title);
+    priceController = TextEditingController(text: "${widget.item.price}");
   }
 
   void _submit() {
-    final updatedItem = {
-      ...widget.item,
-      'title': titleController.text,
-      'price': int.tryParse(priceController.text) ?? widget.item['price'],
-    };
-    // FeedController의 updateData를 호출하여 전역 상태를 업데이트.
-    feedController.updateData(updatedItem);
-    // 데이터 업데이트
-    Get.back();
+    
   }
 
   @override

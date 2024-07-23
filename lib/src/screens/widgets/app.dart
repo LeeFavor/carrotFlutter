@@ -7,15 +7,14 @@ import './../feed/show.dart';
 import './../intro.dart';
 import './../auth/register.dart';
 
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLogin;
+  const MyApp(this.isLogin, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -36,35 +35,34 @@ class MyApp extends StatelessWidget {
           ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
-        hintStyle: TextStyle(fontSize: 16, color: Colors.grey),
-        floatingLabelStyle: TextStyle(fontSize: 10),
-        contentPadding: EdgeInsets.all(10),
-        enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey),
-        ),
-        border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black),
-        ),
+          hintStyle: TextStyle(fontSize: 16, color: Colors.grey),
+          floatingLabelStyle: TextStyle(fontSize: 10),
+          contentPadding: EdgeInsets.all(10),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
         ),
         // 텍스트 설정
         textTheme: const TextTheme(
-        labelLarge: TextStyle(
-        fontSize: 16,
-        fontFamily: 'Noto Sans',
-        fontWeight: FontWeight.bold,
-        ),
+          labelLarge: TextStyle(
+            fontSize: 16,
+            fontFamily: 'Noto Sans',
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       routes: {
         '/': (context) => Home(),
         '/intro': (context) => Intro(),
         '/register': (context) => Register(),
-        '/login': (context) => Login(),
       },
-      initialRoute: '/',
+      initialRoute: isLogin ? '/' : '/intro',
     );
-  } 
+  }
 }

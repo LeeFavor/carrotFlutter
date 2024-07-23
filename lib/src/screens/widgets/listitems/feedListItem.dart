@@ -1,3 +1,4 @@
+import 'package:carrot_flutter/src/models/feedModel.dart';
 import 'package:carrot_flutter/src/screens/widgets/listitems/feedEdit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,7 @@ import 'package:get/get.dart';
 const double _imageSize = 110;
 
 class FeedListItem extends StatelessWidget {
-  final Map item;
+  final FeedModel item;
   const FeedListItem(this.item, {super.key});
 
   @override
@@ -35,7 +36,7 @@ class FeedListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item['title'],
+                    item.title,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 16),
                   ),
@@ -52,7 +53,7 @@ class FeedListItem extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    item['price'].toString(),
+                    item.price.toString(),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],

@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:carrot_flutter/src/providers/authProvider';
+import 'package:carrot_flutter/src/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   final RxBool isButtonEnabled = false.obs;
-  final AuthProvider authProvider = Get.put(AuthProvider());
+  final authProvider = Get.put(AuthProvider());
   final RxBool showVerifyForm = false.obs;
   final RxString buttonText = "인증문자 받기".obs;
   String? phoneNumber;
@@ -23,7 +25,6 @@ class AuthController extends GetxController {
     super.onClose();
   }
 
-  
   // 휴대폰 인증 코드를 요청하는 함수
   Future<void> requestVerificationCode(String phone) async {
     Map body = await authProvider.requestPhoneCode(phone);
@@ -44,13 +45,28 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.BOTTOM);
     return false;
   }
+
   Future<bool> register(String password, String name, [int? profile]) async {
-    Map body = await authProvider.register(phoneNumber!, password, name, profile);
+    Map body =
+        await authProvider.register(phoneNumber!, password, name, profile);
     if (body['result'] == 'ok') {
-    return true;
+      return true;
     }
     Get.snackbar('회원가입 에러', body['message'],
-    snackPosition: SnackPosition.BOTTOM);
+        snackPosition: SnackPosition.BOTTOM);
+    return false;
+  }
+
+  Future<bool> login(String phone, String password) async {
+    Map body = await authProvider.login(phone, password);
+    if (body['result'] == 'ok') {
+      String token = body['access_token'];
+      log("token : $token"); // 'dart:developer' 패키지 내의 log 함수
+      Global.accessToken = token;
+      return true;
+    }
+    Get.snackbar('로그인 에러', body['message'],
+        snackPosition: SnackPosition.BOTTOM);
     return false;
   }
 
@@ -66,8 +82,10 @@ class AuthController extends GetxController {
         timer.cancel(); // 타이머 종료
       } else {
         // 남은 시간을 mm:ss 포맷으로 업데이트
-        String minutes = timeDiff.inMinutes.remainder(60).toString().padLeft(2, '0');
-        String seconds = timeDiff.inSeconds.remainder(60).toString().padLeft(2, '0');
+        String minutes =
+            timeDiff.inMinutes.remainder(60).toString().padLeft(2, '0');
+        String seconds =
+            timeDiff.inSeconds.remainder(60).toString().padLeft(2, '0');
         buttonText.value = "인증문자 다시 받기 $minutes:$seconds";
       }
     });

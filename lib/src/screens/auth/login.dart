@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 // import '../../controllers/auth_controller.dart';
 
 class Login extends StatefulWidget {
-
   const Login({super.key});
-  
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -28,26 +27,30 @@ class _LoginState extends State<Login> {
   // }
   @override
   void initState() {
-  super.initState();
-  _phoneController.addListener(() {
-  authController.updateButtonState(_phoneController);
-  });
+    super.initState();
+    _phoneController.addListener(() {
+      authController.updateButtonState(_phoneController);
+    });
   }
+
   @override
   void dispose() {
-  _phoneController.removeListener(() {
-  authController.updateButtonState(_phoneController);
-  });
+    _phoneController.removeListener(() {
+      authController.updateButtonState(_phoneController);
+    });
+    super.dispose();
   }
+
   _submit() async {
-  // bool result = await authController.login(
-  // _phoneController.text,
-  // _passwordController.text,
-  // );
-  // if (result) {
-  // Get.offAll(() => const Home());
-  // }
+    bool result = await authController.login(
+      _phoneController.text,
+      _passwordController.text,
+    );
+    if (result) {
+      Get.offAll(() => Home());
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,24 +58,24 @@ class _LoginState extends State<Login> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView(
-        children: [
-          LabelTextField(
-            label: '휴대폰 번호',
-            hintText: '휴대폰 번호를 입력해주세요',
-            keyboardType: TextInputType.phone,
-            controller: _phoneController,
-          ),
-          LabelTextField(
-            label: '비밀번호',
-            hintText: '비밀번호를 입력해주세요',
-            controller: _passwordController,
-            isObscure: true,
-          ),
-          ElevatedButton(
-            onPressed: _submit,
-            child: const Text('로그인'),
-          ),
-        ],
+          children: [
+            LabelTextField(
+              label: '휴대폰 번호',
+              hintText: '휴대폰 번호를 입력해주세요',
+              keyboardType: TextInputType.phone,
+              controller: _phoneController,
+            ),
+            LabelTextField(
+              label: '비밀번호',
+              hintText: '비밀번호를 입력해주세요',
+              controller: _passwordController,
+              isObscure: true,
+            ),
+            ElevatedButton(
+              onPressed: _submit,
+              child: const Text('로그인'),
+            ),
+          ],
         ),
       ),
     );

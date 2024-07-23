@@ -6,6 +6,8 @@ class LabelTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isObscure;
   final TextInputType? keyboardType;
+  final int maxLines;
+
   const LabelTextField({
     super.key,
     required this.label,
@@ -13,6 +15,7 @@ class LabelTextField extends StatelessWidget {
     required this.controller,
     this.isObscure = false,
     this.keyboardType,
+    this.maxLines = 1,
   });
 
   @override
@@ -27,6 +30,7 @@ class LabelTextField extends StatelessWidget {
           obscureText: isObscure,
           keyboardType: TextInputType.phone,
           style: const TextStyle(fontSize: 16),
+          maxLines:maxLines,
           decoration: InputDecoration(
             hintText: hintText,
           ),
