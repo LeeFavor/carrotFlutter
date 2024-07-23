@@ -1,5 +1,7 @@
+import 'package:carrot_flutter/src/screens/controllers/userController.dart';
 import 'package:carrot_flutter/src/screens/feed/index.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final List<BottomNavigationBarItem> myTabs = [
   BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
@@ -17,14 +19,21 @@ final List<Widget> myTabItems = [
 ];
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final userController = Get.put(UserController());
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    userController.myInfo();
+  }
 
   void _onItemTapped(int index) {
     setState(() {

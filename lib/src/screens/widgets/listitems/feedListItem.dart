@@ -10,8 +10,8 @@ const double _imageSize = 110;
 
 class FeedListItem extends StatelessWidget {
   final FeedModel item;
-  const FeedListItem(this.item, {super.key});
-
+  FeedListItem(this.item, {super.key});
+  final feedController = Get.put(FeedController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +84,12 @@ class FeedListItem extends StatelessWidget {
                             message: '이 글을 삭제하시겠습니까?',
                             confirmText: '삭제하기',
                             confirmAction: () async {
-                              // bool result =
-                              //     await feedController.feedDelete(item.id);
-                              // if (result) {
-                              //   Get.back();
-                              //   Get.back();
-                              // }
+                              bool result =
+                                  await feedController.feedDelete(item.id);
+                              if (result) {
+                                Get.back();
+                                Get.back();
+                              }
                             },
                             cancel: () {
                               Get.back();
